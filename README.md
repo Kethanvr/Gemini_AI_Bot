@@ -1,26 +1,29 @@
+# WhatsApp Gemini Bot
 
-#### Please give a ⭐ if you like it.
+A Flask webhook prototype that connects incoming WhatsApp Cloud API messages to Google Gemini. The current handler processes text and attempts to handle image, audio, and PDF messages.
 
-### Follow the video tutorial to set up the bot 🤩👇
+## Configuration
 
-### ⚠️ Don't clone. It won't work in Local environment. Follow the steps in the video.
+The application reads these environment variables:
 
-# Whatsapp_Gemini_Bot
-**Get Google Gemini AI On WhatsApp, without port forwarding. An always online WhatsApp bot by creating a flask server on Vercel.**
+- `WA_TOKEN` — WhatsApp Cloud API access token
+- `GEN_API` — Google Gemini API key
+- `PHONE_ID` — WhatsApp phone-number ID
+- `PHONE_NUMBER` — recipient number used by the current sender function
 
-## Complete tutorial video:
+Do not commit real credentials. The webhook verification value is currently fixed in `main.py`; replace it with a unique secret and use the same value in your Meta webhook configuration before exposing the endpoint.
 
-[![Watch the video](https://img.youtube.com/vi/zT0YTfizzxM/0.jpg)](https://youtu.be/zT0YTfizzxM)
+## Run locally
 
+The project uses Flask and runs on port `8000`:
 
-## Image Examples:
+```bash
+python -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+python main.py
+```
 
-<img src="images/Screenshot_2024-05-07-17-17-07-249_com.whatsapp.jpg" alt="working1" width="300" height=750>
+The current requirements file does not list `requests`, which `main.py` imports. Install it in the environment or correct the dependency file before running. A local server also needs a publicly reachable HTTPS webhook URL to receive WhatsApp callbacks.
 
-<img src ="images/Screenshot_2024-05-25-22-02-01-088_com.whatsapp.jpg" alt="working2"  width="300" height=750>
-
-## 👆Bot can respond to images and audio
-
-<img src="images/Screenshot_20240528_224908_WhatsApp.jpg" alt="working3"  width="300" height=750>
-
-## Bot can respond to pdf also.
+This repository is an experimental integration. Review provider requirements, webhook validation, error handling, and data handling before deploying it.
