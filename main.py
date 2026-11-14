@@ -5,7 +5,10 @@ import os
 import fitz
 
 wa_token=os.environ.get("WA_TOKEN")
-genai.configure(api_key=os.environ.get("GEN_API"))
+gemini_api_key = os.environ.get("GEN_API")
+if not gemini_api_key:
+    raise RuntimeError("GEN_API must be set in the server environment")
+genai.configure(api_key=gemini_api_key)
 phone_id=os.environ.get("PHONE_ID")
 phone=os.environ.get("PHONE_NUMBER")
 name="Your name or nickname" #The bot will consider this person as its owner or creator
@@ -75,7 +78,8 @@ def webhook():
         mode = request.args.get("hub.mode")
         token = request.args.get("hub.verify_token")
         challenge = request.args.get("hub.challenge")
-        if mode == "subscribe" and token == "BOT":
+        verify_token = os.environ.get("WHATSAPP_VERIFY_TOKEN")
+        if mode == "subscribe" and verify_token and token == verify_token:
             return challenge, 200
         else:
             return "Failed", 403

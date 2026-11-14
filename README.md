@@ -8,10 +8,11 @@ The application reads these environment variables:
 
 - `WA_TOKEN` — WhatsApp Cloud API access token
 - `GEN_API` — Google Gemini API key
+- `WHATSAPP_VERIFY_TOKEN` — private token configured for Meta webhook verification
 - `PHONE_ID` — WhatsApp phone-number ID
 - `PHONE_NUMBER` — recipient number used by the current sender function
 
-Do not commit real credentials. The webhook verification value is currently fixed in `main.py`; replace it with a unique secret and use the same value in your Meta webhook configuration before exposing the endpoint.
+Do not commit real credentials. The webhook verification token is read from `WHATSAPP_VERIFY_TOKEN`; set a unique value in the server environment and use the same value in your Meta webhook configuration. The endpoint rejects verification when the variable is unset.
 
 ## Run locally
 
